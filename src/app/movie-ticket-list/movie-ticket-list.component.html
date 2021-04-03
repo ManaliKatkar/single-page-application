@@ -1,0 +1,71 @@
+<div class="main-container">
+  <!--Photo Listing-->
+
+  <h3>{{ appLevelConstants.PROFILE_SHOW }}</h3>
+  <div class="add-btn-container">
+    <button  [disabled]="disabled"
+      class="add-btn"
+      mat-raised-button
+      color="primary"
+      (click)="bookMovieTickets()"
+    >
+    {{ appLevelConstants.BOOK_TICKET }}
+    </button>
+  </div>
+  <div class="card-main-container">
+    <div *ngIf="isLoading; else carData">
+      <!--Spinner for data loading-->
+      <mat-card class="loader">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+      </mat-card>
+    </div>
+
+    <!--Photo Listing cards -->
+    <ng-template #carData>
+      <div class="card-items">
+        <mat-paginator
+          #MatPaginatorCards="matPaginator"
+          [pageSizeOptions]="[30]"
+        ></mat-paginator>
+
+        <div class="cards">
+          <mat-card class="card-layout" *ngFor="let card of obs |  async ">
+            <div class="overflow-text" title="{{ card.seat_code }}">
+              {{ card.seat_code }}
+            </div>
+            <div class="overflow-text">
+              <b>{{ card.rate }}</b>
+            </div>
+
+            <mat-card-actions>
+              <!-- <button
+                *ngIf="!card.availability; else remove"
+                mat-raised-button
+                color="primary"
+                (click)="onCompare(card)"
+              > -->
+              <!-- {{ appLevelConstants.BOOK_TICKET }} -->
+              <mat-checkbox *ngIf="card.availability; else remove"
+                class="example-margin"
+                (change)="onBooking($event,card)"
+                [(checked)]="IsChecked"
+                [(indeterminate)]="IsIndeterminate"
+                [labelPosition]="LabelAlign"
+                [disabled]="IsDisabled"
+              >
+              {{ appLevelConstants.BOOK_TICKET }}
+              </mat-checkbox>
+              <!-- </button> -->
+              <ng-template #remove>
+                <button mat-raised-button color="warn">
+                  {{ appLevelConstants.BOOKED_ALREADY }}
+                </button>
+              </ng-template>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
