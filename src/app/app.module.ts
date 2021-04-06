@@ -11,12 +11,14 @@ import {
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // import from internal
-import { PhotoListingService } from "./services/photo-listing.service";
+import { ItemListingService } from "./services/item-listing.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { MenuComponent } from './components/menu/menu.component';
+import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MenuComponent, CartComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -28,7 +30,7 @@ import { AppComponent } from "./app.component";
     MatProgressSpinnerModule,
     AppRoutingModule,
   ],
-  providers: [PhotoListingService],
+  providers: [ItemListingService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -1,0 +1,79 @@
+<div class="main-container">
+  <!--Items Listing-->
+  <h3>{{ appLevelConstants.ITEMS_LISTING }}</h3>
+
+  <div class="item-main-container">
+    <div class="cart-btn">
+      <div class="btn">
+        <button mat-raised-button color="">
+          {{ appLevelConstants.TOTAL_COUNT }} <b>{{ totalCount }}</b>
+        </button>
+      </div>
+      <div class="btn">
+        <button mat-raised-button color="">
+          {{ appLevelConstants.TOTAL_AMOUNT }}
+          <b> {{ totalAmount | currency }} </b>
+        </button>
+      </div>
+
+      <div class="btn">
+        <button mat-raised-button color="warn" (click)="moveToCart()">
+          {{ appLevelConstants.CART }} >
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading; else itemsData">
+      <!--Spinner for data loading-->
+      <mat-card class="loader">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+      </mat-card>
+    </div>
+
+    <!--Items Listing -->
+    <ng-template #itemsData>
+      <div class="card-items">
+        <mat-paginator
+          #MatPaginatorCards="matPaginator"
+          [pageSizeOptions]="[5, 10, 15, 20]"
+          *ngIf="!isLoading"
+        >
+        </mat-paginator>
+
+        <div class="cards">
+          <mat-card class="card-layout" *ngFor="let card of obs | async">
+            <div class="overflow-text">
+              <b>{{ card.id }}</b>
+            </div>
+            <div class="overflow-text" title="{{ card.item_name }}">
+              {{ card.item_name }}
+            </div>
+            <div class="overflow-text" title="{{ card.price }}">
+              Rs. {{ card.price }}
+            </div>
+            <mat-card-actions>
+              <button
+                *ngIf="!card.is_added_cart; else remove"
+                mat-raised-button
+                color="primary"
+                (click)="addRemoveItem(card)"
+              >
+                {{ appLevelConstants.ADD }}
+              </button>
+              <ng-template #remove>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="addRemoveItem(card)"
+                >
+                  {{ appLevelConstants.REMOVE }}
+                </button>
+              </ng-template>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
